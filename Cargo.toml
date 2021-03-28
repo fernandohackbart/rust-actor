@@ -1,0 +1,28 @@
+[package]
+name = "rust-actor"
+version = "0.1.0"
+authors = ["fernando.hackbart <fernando.hackbart@protonmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+riker = "0.4.1"
+rocket = "0.4.7"
+mqtt-async-client = "0.2.0"
+log = "0.4.14"
+futures-util = "0.3.13"
+rustls = "0.19.0"
+tokio = "1.2.0"
+structopt = "0.3.21"
+webpki-roots = "0.21.0"
+env_logger = "0.8.3"
+paho-mqtt = { git = "https://github.com/eclipse/paho.mqtt.rust.git", branch = "master" }
+
+[[bin]]
+name = "mqtt_client"
+path = "src/mqtt_client/mod.rs"
+
+[[bin]]
+name = "client"
+path = "src/mqtt_client/client.rs"
