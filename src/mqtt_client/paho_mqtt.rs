@@ -37,9 +37,7 @@ fn subscribe_topics(cli: &mqtt::Client) {
 }
 
 fn main() {
-    let host = env::args().nth(1).unwrap_or_else(||
-        DFLT_BROKER.to_string()
-    );
+    let host = env::args().nth(1).unwrap_or_else(||DFLT_BROKER.to_string());
 
     // Define the set of options for the create.
     // Use an ID for a persistent session.

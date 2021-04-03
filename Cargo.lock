@@ -1262,6 +1262,7 @@ dependencies = [
  "rustls",
  "structopt",
  "tokio",
+ "uuid",
  "webpki-roots",
 ]
 

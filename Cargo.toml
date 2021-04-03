@@ -9,6 +9,7 @@ edition = "2018"
 [dependencies]
 riker = "0.4.1"
 rocket = "0.4.7"
+uuid = "0.8.1"
 mqtt-async-client = "0.2.0"
 log = "0.4.14"
 futures-util = "0.3.13"
@@ -20,9 +21,9 @@ env_logger = "0.8.3"
 paho-mqtt = { git = "https://github.com/eclipse/paho.mqtt.rust.git", branch = "master" }
 
 [[bin]]
-name = "mqtt_client"
-path = "src/mqtt_client/mod.rs"
+name = "mqtt_async_client"
+path = "src/mqtt_client/mqtt_async_client.rs"
 
 [[bin]]
-name = "client"
-path = "src/mqtt_client/client.rs"
+name = "paho_mqtt"
+path = "src/mqtt_client/paho_mqtt.rs"
