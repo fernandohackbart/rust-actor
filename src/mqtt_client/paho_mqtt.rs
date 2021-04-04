@@ -5,6 +5,8 @@ use std::{
     time::Duration
 };
 
+use log::{info,warn};
+
 extern crate paho_mqtt as mqtt;
 
 const DFLT_BROKER:&str = "tcp://192.168.1.110:1883";
@@ -16,22 +18,22 @@ const DFLT_QOS:&[i32] = &[0, 1];
 // Reconnect to the broker when connection is lost.
 fn try_reconnect(cli: &mqtt::Client) -> bool
 {
-    println!("Connection lost. Waiting to retry connection");
+    info!("Connection lost. Waiting to retry connection");
     for _ in 0..12 {
         thread::sleep(Duration::from_millis(5000));
         if cli.reconnect().is_ok() {
-            println!("Successfully reconnected");
+            info!("Successfully reconnected");
             return true;
         }
     }
-    println!("Unable to reconnect after several attempts.");
+    warn!("Unable to reconnect after several attempts.");
     false
 }
 
 // Subscribes to multiple topics.
 fn subscribe_topics(cli: &mqtt::Client) {
     if let Err(e) = cli.subscribe_many(DFLT_TOPICS, DFLT_QOS) {
-        println!("Error subscribes topics: {:?}", e);
+        info!("Error subscribes topics: {:?}", e);
         process::exit(1);
     }
 }
@@ -48,7 +50,7 @@ fn main() {
 
     // Create a client.
     let mut cli = mqtt::Client::new(create_opts).unwrap_or_else(|err| {
-        println!("Error creating the client: {:?}", err);
+        warn!("Error creating the client: {:?}", err);
         process::exit(1);
     });
 
@@ -68,21 +70,21 @@ fn main() {
 
     // Connect and wait for it to complete or fail.
     if let Err(e) = cli.connect(conn_opts) {
-        println!("Unable to connect:\n\t{:?}", e);
+        warn!("Unable to connect:\n\t{:?}", e);
         process::exit(1);
     }
 
     // Subscribe topics.
     subscribe_topics(&cli);
 
-    println!("Processing requests...");
+    info!("Processing requests...");
     for msg in rx.iter() {
         if let Some(msg) = msg {
-            println!("{}", msg);
+            info!("{}", msg);
         }
         else if !cli.is_connected() {
             if try_reconnect(&cli) {
-                println!("Resubscribe topics...");
+                info!("Resubscribe topics...");
                 subscribe_topics(&cli);
             } else {
                 break;
@@ -92,9 +94,9 @@ fn main() {
 
     // If still connected, then disconnect now.
     if cli.is_connected() {
-        println!("Disconnecting");
+        info!("Disconnecting");
         cli.unsubscribe_many(DFLT_TOPICS).unwrap();
         cli.disconnect(None).unwrap();
     }
-    println!("Exiting");
+    info!("Exiting");
 }

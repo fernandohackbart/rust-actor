@@ -1181,6 +1181,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "riker-patterns"
+version = "0.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "258e641e0827bc750966e7bba7b63125bb5f3dc08592c26dcc71ad923601f5d9"
+dependencies = [
+ "futures",
+ "riker",
+]
+
+[[package]]
 name = "ring"
 version = "0.16.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1258,6 +1268,7 @@ dependencies = [
  "mqtt-async-client",
  "paho-mqtt",
  "riker",
+ "riker-patterns",
  "rocket",
  "rustls",
  "structopt",
